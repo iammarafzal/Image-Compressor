@@ -25,7 +25,7 @@ class App (QMainWindow):
         self.setFixedSize(self.width, self.height)
         self.setObjectName("main_window")
         stylesheet = ""
-        with open("design.css", "r") as f:
+        with open("design.qss", "r") as f:
             stylesheet = f.read()
         self.setStyleSheet(stylesheet)
         self.initUI()
@@ -204,14 +204,12 @@ class App (QMainWindow):
         # ---------------------------- Functions -----------------------------------------
 
     def single_bubble_clicked(self, event):
-        print("singal bubble clicked")
         self.single_bubble.setVisible(False)
         self.dir_bubble.setVisible(False)
         self.single_bubble_expanded.setVisible(True)
         self.dir_bubble_expanded.setVisible(False)
 
     def dir_bubble_clicked(self, event):
-        print("dir bubble clicked")
         self.single_bubble.setVisible(False)
         self.dir_bubble.setVisible(False)
         self.single_bubble_expanded.setVisible(False)
@@ -226,7 +224,6 @@ class App (QMainWindow):
     def select_file(self):
         fileName, _ = QFileDialog.getOpenFileName(self,"QFileDialog.getOpenFileName()", "","All Files (*);;JPEG (*.jpeg)")
         if fileName:
-            print(fileName, _)
             self.image_path.setText(fileName)
             img = Image.open(fileName)
             self.image_width = img.width
@@ -261,14 +258,9 @@ class App (QMainWindow):
 
     def select_folder_source(self):
         folder = QFileDialog.getExistingDirectory(self, "Select Directory")
-        print(folder)
         self.source_path.setText(folder)
         files = os.listdir(folder)
         first_pic = folder + "/" + files[0]
-
-
-        for file in files:
-            print(file)
 
         img = Image.open(first_pic)
         self.image_width = img.width
@@ -277,7 +269,6 @@ class App (QMainWindow):
 
     def select_folder_dest(self):
         folder = QFileDialog.getExistingDirectory(self, "Select Directory")
-        print(folder)
         self.dest_path.setText(folder)
 
     def resize_pic(self):
@@ -286,10 +277,7 @@ class App (QMainWindow):
         if old_pic == "":
             self.statusBar().showMessage("Message: Please choose an image")
             return
-        print("Original Image Path:", old_pic)
-        print("Compressed Width:", self.compress_width)
         directories = old_pic.split("/")
-        print("Directories:", directories)
         new_pic = ""
 
         # Prompting the user for the new image name
@@ -311,8 +299,6 @@ class App (QMainWindow):
 
             new_pic += new_pic_name
             
-            print("New Image Path:", new_pic)
-
             self.compression_code(old_pic, new_pic, int(self.quality_path.text()))
             self.statusBar().showMessage("Message: Compressed")
 
@@ -375,7 +361,6 @@ class App (QMainWindow):
             old_pic = os.path.join(source_dir, file)
             new_pic = os.path.join(dest_dir, file)
             self.resize_pic(old_pic, new_pic, width)
-            print(i, "Done")
 
 
 
